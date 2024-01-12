@@ -7,46 +7,37 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
-class Solution {
-  public:
-    string removeKdigits(string S, int K) {
-        stack<char> q;
-        int n = S.size();
-        q.push(S[0]);
-        int i=1;
-        while(i<n)
-        {
-            while(!q.empty() && q.top() > S[i] && K)
-            {
-                q.pop();
-                K--;
+class Solution
+{
+public:
+    string removeKdigits(string S, int k)
+    {
+        int n = S.length();
+        stack<char> s;
+        for (int i = 0; i < n; i++){
+            while ((!s.empty()) && (S[i] < s.top()) && k > 0){
+                s.pop();
+                k--;
             }
-            q.push(S[i]);
-            i++;
+
+            if ((S[i] != '0' && s.empty()) || !s.empty()){
+                s.push(S[i]);
+            }
         }
-        while(K>0)
-        {
-            q.pop();
-            K--;
+
+        while (k > 0 && (!s.empty())){
+            s.pop();
+            k--;
         }
-        if(q.empty()) return "0";
-        string a = "";
-        while(!q.empty())
-        {
-            a += q.top();
-            q.pop();
+
+        string ans = "";
+        
+        while (!s.empty()){
+            ans.push_back(s.top());
+            s.pop();
         }
-        reverse(a.begin(),a.end());
-        int z = 0;
-        while(z<a.size())
-        {
-            if(a[z] == '0')
-            z++;
-            else break;
-        }
-        if(z == a.size())
-            return "0";
-        return a.substr(z);
+        reverse(ans.begin(), ans.end());
+        return ans == "" ? "0" : ans;
     }
 };
 
