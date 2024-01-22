@@ -10,12 +10,13 @@ using namespace std;
 class Solution{
 public:
     int findWinner(int n, int A[]){
-        // code here
-        int x = 0;
+        
+        int sum = 0;
         for(int i = 0 ; i < n ; i++){
-            x ^= A[i];
+            sum ^= A[i];
         }
-        if(x == 0 || n % 2 == 0){
+        
+        if(sum == 0 || n%2 == 0){
             return 1;
         }
         return 2;
