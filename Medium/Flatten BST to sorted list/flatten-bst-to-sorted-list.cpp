@@ -121,23 +121,33 @@ public:
 };
 */
 
-class Solution
-{
+class Solution{
 public:
-      Node *flattenBST(Node *root)
-    {
+    Node *flattenBST(Node *root){
         // code here
-        return bst(root);
+        Node* dummy = new Node(-1);
+        Node * prev = dummy;
+        
+        inorder(prev , root);
+        
+        Node * ans = dummy -> right;
+        prev -> left = NULL;
+        prev -> right = NULL;
+        
+        delete(dummy);
+        
+        return ans;
     }
 private:
-    Node* bst(Node* root){
+    void inorder(Node* &prev , Node* root){
         if(root == NULL){
-            return NULL;
+            return;
         }
-        
-        bst(root->left);
-        cout << root->data << " ";
-        bst(root->right);
+        inorder(prev , root -> left);
+        prev -> right = root;
+        prev -> left = NULL;
+        prev = prev -> right;
+        inorder(prev , root -> right);
     }
 };
 
