@@ -26,30 +26,43 @@ class Array {
 class Solution {
 public:
     long long maxTip(int n, int x, int y, vector<int> &arr, vector<int> &brr) {
+        long long ans = 0;
         
-        vector<pair<int, int>> diff;
-
-        for (int i = 0; i < n; ++i)
-            diff.push_back({abs(arr[i] - brr[i]), i});
+        if (y < x) {
+            swap(x, y);
+            swap(arr, brr);
+        }
         
-
-        sort(diff.begin(), diff.end(), greater<pair<int, int>>());
-
-        long long tot = 0;
-
-        for (int i = 0; i < n; ++i) {
-            int idx = diff[i].second;
-
-            if ((arr[idx] >= brr[idx] && x > 0) || y == 0) {
-                tot += arr[idx];
-                --x;
-            } else {
-                tot += brr[idx];
-                --y;
+        for (auto it : brr) ans += it;
+        
+        priority_queue<long> pq; 
+        priority_queue<long> minH; 
+        int count = y;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] > brr[i]) {
+                pq.push((arr[i] - brr[i]));
+            }else{
+                minH.push((arr[i] - brr[i]));
+                y--;
             }
         }
-
-        return tot;
+        
+        while (!pq.empty() && x) {
+            ans += pq.top();
+            pq.pop();
+            x--;
+        }
+        //cout << x << " " << y << endl;    
+        while (!minH.empty() && (y<0)) {
+            ans += minH.top();
+            minH.pop();
+            y++;
+        }
+        
+    
+       
+        
+        return ans;
     }
 };
 
