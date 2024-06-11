@@ -36,31 +36,29 @@ public:
         for (auto it : brr) ans += it;
         
         priority_queue<long> pq; 
-        priority_queue<long> minH; 
+        priority_queue<long , vector<long> , greater<long>> minH; 
         int count = y;
         for (int i = 0; i < n; i++) {
             if (arr[i] > brr[i]) {
                 pq.push((arr[i] - brr[i]));
             }else{
-                minH.push((arr[i] - brr[i]));
+                minH.push(abs(arr[i] - brr[i]));
                 y--;
             }
         }
         
         while (!pq.empty() && x) {
             ans += pq.top();
+            // cout << pq.top() << endl;
             pq.pop();
             x--;
         }
         //cout << x << " " << y << endl;    
         while (!minH.empty() && (y<0)) {
-            ans += minH.top();
+            ans -= minH.top();
             minH.pop();
             y++;
         }
-        
-    
-       
         
         return ans;
     }
